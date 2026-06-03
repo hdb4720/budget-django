@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1>Updated Transactions Diff – {{ log.filename }}</h1>
+
+{% for item in diffs %}
+<h3>Transaction ID {{ item.before.id }}</h3>
+<table class="listing">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Before</th>
+            <th>After</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for field in item.before.keys %}
+        <tr>
+            <td>{{ field }}</td>
+            <td>{{ item.before[field] }}</td>
+            <td>{{ item.after[field] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+
+{% endblock %}
+

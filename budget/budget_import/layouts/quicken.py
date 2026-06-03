@@ -1,0 +1,31 @@
+QUICKEN_LAYOUT = {
+    "title_row": 1,
+    "date_range_row": 3,
+    "date_range_pattern": "through",
+    "header_row": 5,
+    "detail_row": 9,
+    "total_lines": 9,
+    "required_columns": ["account", "date", "category", "description", "amount"],
+    "optional_columns": ["memo"],
+    "column_defaults": {
+        "category": "Uncategorized",
+        "description": "",
+        "memo": "",
+    },
+"column_map": {
+    "account": "account_name",
+    "category": "category_path",
+    "date": "date",
+    "amount": "amount",
+    "description": "description",
+    "memo": "memo",
+},
+    "column_normalization": {
+        "strip": True,
+        "lower": True,
+        "spaces_to_underscores": True,
+    },
+    "data_starts_after_header": True,
+    "max_rows": None,
+    "date_format": None,
+}

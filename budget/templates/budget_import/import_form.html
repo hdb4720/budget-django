@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Import Transactions</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div>
+        {{ form.file.label_tag }}<br>
+        {{ form.file }}
+        {% if form.file.errors %}
+        <div class="error">{{ form.file.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div style="margin-top: 1em;">
+        {{ form.layout }} {{ form.layout.label_tag }}
+        <br>
+        <small>{{ form.layout.help_text }}</small>
+    </div>
+
+    <div style="margin-top: 1em;">
+        {{ form.dry_run }} {{ form.dry_run.label_tag }}
+        <br>
+        <small>{{ form.dry_run.help_text }}</small>
+    </div>
+
+    <div style="margin-top: 1em;">
+        {{ form.display_results }} {{ form.display_results.label_tag }}
+        <br>
+        <small>{{ form.display_results.help_text }}</small>
+    </div>
+
+    <div style="margin-top: 1.5em;">
+        <button type="submit">Run Import</button>
+    </div>
+</form>
+{% endblock %}

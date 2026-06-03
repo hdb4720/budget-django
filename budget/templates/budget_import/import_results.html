@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Import Results</h1>
+
+<!-- Summary Section -->
+<h2>Summary</h2>
+<ul>
+    <li><strong>Dry Run:</strong> {{ result.dry_run }}</li>
+    <li><strong>Display Results:</strong> {{ result.display_results }}</li>
+    <li><strong>Start Date:</strong> {{ result.df_start }}</li>
+    <li><strong>End Date:</strong> {{ result.df_end }}</li>
+    <li><strong>Inserted:</strong> {{ result.summary.inserted }}</li>
+    <li><strong>Deleted:</strong> {{ result.summary.deleted }}</li>
+</ul>
+
+{% if result.dry_run %}
+<div class="info" style="margin-top: 1em;">
+    <strong>Dry Run:</strong> No changes were written to the database.
+</div>
+{% endif %}
+
+<hr>
+
+<!-- Inserted Rows -->
+{% if result.display_results and result.summary.inserted %}
+<h2>Rows to Insert</h2>
+<table border="1" cellpadding="6" cellspacing="0" style="white-space: nowrap;">
+    <thead>
+        <tr>
+            <th>Account</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Memo</th>
+            <th>Amount</th>
+            <th>Seq</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tx in result.rows_to_insert %}
+        <tr>
+            <td>{{ tx.account_name }}</td>
+            <td>{{ tx.category_path }}</td>
+            <td>{{ tx.date }}</td>
+            <td>{{ tx.description }}</td>
+            <td>{{ tx.memo }}</td>
+            <td>{{ tx.amount }}</td>
+            <td>{{ tx.seq }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<!-- Deleted Rows -->
+{% if result.display_results and result.summary.deleted %}
+<h2 style="margin-top: 2em;">Rows to Delete</h2>
+<table border="1" cellpadding="6" cellspacing="0" style="white-space: nowrap;">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Account</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Payee</th>
+            <th>Memo</th>
+            <th>Amount</th>
+            <th>Seq</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tx in result.rows_to_delete %}
+        <tr>
+            <td>{{ tx.id }}</td>
+            <td>{{ tx.account_name }}</td>
+            <td>{{ tx.category_path }}</td>
+            <td>{{ tx.tx_date }}</td>
+            <td>{{ tx.payee }}</td>
+            <td>{{ tx.memo }}</td>
+            <td>{{ tx.amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

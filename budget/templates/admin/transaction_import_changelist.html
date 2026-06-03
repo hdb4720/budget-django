@@ -1,0 +1,62 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Import Transactions</h1>
+
+<form method="post" enctype="multipart/form-data" action="{% url 'admin:transaction-import' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Run Import" class="default">
+    {% if preview_rows %}
+        <p>
+            <a href="{% url 'admin:transaction-import-download-preview' %}" class="button">
+                Download Preview as CSV
+            </a>
+        </p>
+    {% endif %}
+</form>
+
+{% if preview_rows %}
+<h2>Preview (first {{ preview_rows|length }} rows)</h2>
+<table class="listing">
+    <thead>
+        <tr>
+            {% for k in preview_rows.0.keys %}
+            <th>{{ k }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in preview_rows %}
+        <tr>
+            {% for v in row.values %}
+            <td>{{ v }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if result %}
+<h2>Import Summary</h2>
+<ul>
+    <li>Created: {{ result.created }}</li>
+    <li>Updated: {{ result.updated }}</li>
+    <li>Soft Deleted: {{ result.soft_deleted }}</li>
+    <li>Errors: {{ result.errors|length }}</li>
+</ul>
+
+{% if result.errors %}
+<h3>Errors</h3>
+<ul>
+    {% for e in result.errors %}
+    <li style="color: red;">{{ e }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endif %}
+
+{% endblock %}
+
