@@ -1,4 +1,4 @@
-import pandas as pd
+import polars as pl
 
 from datetime import datetime
 from decimal import Decimal
@@ -15,7 +15,8 @@ def parse_excel(file, layout):
     # -----------------------------------------------------
     # Load raw sheet and build report sections
     # -----------------------------------------------------
-    df_raw = pd.read_excel(file, header=None)
+    data = file.read()
+    df_raw = pl.read_excel(data, sheet_name="Report", has_header=False)
     
     df_title_row = layout.get("title_row") - 1
     df_date_row = layout.get("date_range_row") - 1
@@ -23,9 +24,9 @@ def parse_excel(file, layout):
     df_detail_row = layout.get("detail_row") - 1
     df_total_lines = layout.get("total_lines")
     
-    df_title = df_raw.iloc[df_title_row, 0] if df_title_row is not None else None
+    df_title = df_raw[df_title_row, 0] if df_title_row is not None else None
     
-    df_date = df_raw.iloc[df_date_row, 0] if df_date_row is not None else None
+    df_date = df_raw[df_date_row, 0] if df_date_row is not None else None
     
     # -----------------------------------------------------
     # Extract date range from metadata row
@@ -39,25 +40,42 @@ def parse_excel(file, layout):
     # -----------------------------------------------------
     # Extract data header from metadata row
     # -----------------------------------------------------
-    df_header = (
-        df_raw.iloc[df_header_row]
-        .astype(str)
-        .str.strip()
-        .str.lower()
-        .str.replace(" ", "_")
-    ) if df_header_row is not None else None
-    
+    raw_header = df_raw.row(df_header_row)
+
+    header_list = []
+    for i, h in enumerate(raw_header):
+        if h is None:
+            header_list.append(f"unnamed_{i}")
+        else:
+            cleaned = (
+                str(h)
+                .strip()
+                .lower()
+                .replace(" ", "_")
+            )
+            header_list.append(cleaned)
+
     # -----------------------------------------------------
     # Extract data detail from metadata rows
     # -----------------------------------------------------
-    df_detail = df_raw.iloc[df_detail_row:-df_total_lines].copy()
-    df_detail.columns = df_header
-
+    df_detail = df_raw[df_detail_row : -df_total_lines]
+    
     # -----------------------------------------------------
-    # Extract beginning andf ending balances
+    # Assign header row as column names
     # -----------------------------------------------------
-    df_beginning_balance = df_raw.iloc[df_detail_row-1, 1] if df_detail_row is not None else None
-    df_ending_balance = df_raw.loc[df_raw.iloc[:, 1].notna(), df_raw.columns[1]].iloc[-1]
+    df_detail = df_detail.rename(
+        dict(zip(df_detail.columns, header_list))
+    )
+    # -----------------------------------------------------
+    # Extract beginning and ending balances
+    # -----------------------------------------------------
+    df_beginning_balance = df_raw[df_detail_row-1, 1]
+    
+    df_ending_balance = (
+        df_raw
+        .select(pl.col(df_raw.columns[1]).drop_nulls().last())
+        .item()
+    )
     
     # -----------------------------------------------------
     # Normalize column names
@@ -128,7 +146,6 @@ def normalize_columns(columns, layout):
 
 def validate_columns(df, layout):
     required = layout["required_columns"]
-
     for col in required:
         if col not in df.columns:
             raise ValueError(f"Missing required column: {col}")
@@ -140,16 +157,15 @@ def handle_splits(df):
     last_desc = None
 
     out = []
-
-    for _, row in df.iterrows():
+    for row in df.to_dicts():
         raw_account = row["account"]
         raw_date = row["date"]
         raw_desc = row["description"]
 
         is_split = (
-            pd.isna(raw_account) and 
-            pd.isna(raw_date) and 
-            pd.isna(raw_desc)
+            raw_account is None and
+            raw_date is None and
+            raw_desc is None
         )
 
         if is_split:
@@ -171,21 +187,34 @@ def handle_splits(df):
         row["description"] = desc
         out.append(row)
 
-    return pd.DataFrame(out)
+    return pl.DataFrame(out)
 
+
+# import polars as pl
 
 def apply_defaults(df):
-    df["category"] = df["category"].fillna("Uncategorized").replace("", "Uncategorized")
-    df["description"] = df["description"].fillna("").replace("", "")
-    df["memo"] = df["memo"].fillna("").replace("", "")
-    return df
+    return df.with_columns(
+        pl.col("category")
+            .fill_null("Uncategorized")
+            .replace("", "Uncategorized"),
+
+        pl.col("description")
+            .fill_null("")
+            .replace("", ""),
+
+        pl.col("memo")
+            .fill_null("")
+            .replace("", ""),
+    )
 
 
 def validate_rows(df, layout):
     required = layout["required_columns"]
 
-    bad = df[df[required].isna().any(axis=1)]
-    if not bad.empty:
+    bad = df.filter(
+        pl.any_horizontal([pl.col(c).is_null() for c in required])
+    )
+    if not bad.is_empty:
         raise ValueError(
             "Rows missing required values after split handling and defaults:\n"
             f"{bad}"
@@ -203,14 +232,14 @@ def build_transactions(df, layout):
     colmap = layout["column_map"]
     defaults = layout.get("column_defaults", {})
 
-    for _, row in df.iterrows():
+    for row in df.to_dicts():
         tx = {}
 
         # -----------------------------
         # 1. Map report columns → internal fields
         # -----------------------------
         for source_col, target_field in colmap.items():
-            if source_col in row and pd.notna(row[source_col]):
+            if source_col in row and row[source_col] is not None:
                 tx[target_field] = row[source_col]
             else:
                 tx[target_field] = defaults.get(source_col, "")
@@ -226,8 +255,7 @@ def build_transactions(df, layout):
         # 3. Normalize date
         # -----------------------------
         if "date" in tx:
-            # Pandas already parsed it, but ensure it's a date object
-            tx["date"] = pd.to_datetime(tx["date"]).date()
+            tx["date"] = datetime.strptime(tx["date"], "%Y-%m-%d %H:%M:%S").date()
 
         # -----------------------------
         # 4. Normalize amount → Decimal

@@ -1,10 +1,10 @@
 QUICKEN_LAYOUT = {
     "title_row": 1,
-    "date_range_row": 3,
+    "date_range_row": 2,
     "date_range_pattern": "through",
-    "header_row": 5,
-    "detail_row": 9,
-    "total_lines": 9,
+    "header_row": 3,
+    "detail_row": 5,
+    "total_lines": 5,
     "required_columns": ["account", "date", "category", "description", "amount"],
     "optional_columns": ["memo"],
     "column_defaults": {
