@@ -1,0 +1,23 @@
+<h1>Preview Budget Rows</h1>
+
+<table class="table">
+  <tr>
+    <th>Date</th>
+    <th>Amount</th>
+    <th>Category</th>
+    <th>Type</th>
+  </tr>
+  {% for row in rows %}
+  <tr>
+    <td>{{ row.date }}</td>
+    <td>{{ row.amount }}</td>
+    <td>{{ row.category }}</td>
+    <td>{{ row.get_budget_type_display }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<form method="post" action="{% url 'budget_create_save' %}">
+  {% csrf_token %}
+  <button class="btn btn-success">Save Budgets</button>
+</form>

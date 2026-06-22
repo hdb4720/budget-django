@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1>Transaction Importer</h1>
+
+<p>This is your custom admin importer page.</p>
+
+<p><a href="{% url 'admin:index' %}" class="button">Return to Admin</a></p>
+
+<a href="{% url 'admin:index' %}" class="button">Return to Admin</a>
+
+<a href="{% url 'admin:index' %}" class="button default">Return</a>
+
+<a href="/admin/budget/" class="button default">Return</a>
+
+{% endblock %}

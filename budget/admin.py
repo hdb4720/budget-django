@@ -9,9 +9,10 @@ from .models import (
     Account,
     Category,
     Transaction,
-    Budgets,
+    Budget,
     PeriodScheme,
     Period,
+    ImporterEntry,
 )
 
 # -----------------------------
@@ -48,16 +49,16 @@ class TransactionAdmin(admin.ModelAdmin):
     )
     list_filter = ("account", "category", "date")
     search_fields = ("description", "memo", "category__name")
-
+    change_list_template = "admin/budget/transaction_changelist.html"
 
 # -----------------------------
-# Budgets Admin
+# Budget Admin
 # -----------------------------
-@admin.register(Budgets)
-class BudgetsAdmin(admin.ModelAdmin):
-    list_display = ("date", "category", "amount", "account", "imp", "hist")
+@admin.register(Budget)
+class BudgetAdmin(admin.ModelAdmin):
+    list_display = ("date", "category", "amount", "account", "type")
     list_filter = ("date", "category", "account")
-    search_fields = ("category__name", "notes", "hist")
+    search_fields = ("category__name", "notes", "type")
 
 
 # -----------------------------
@@ -103,7 +104,8 @@ class PeriodSchemeAdmin(admin.ModelAdmin):
             create_periods_for_scheme(obj)
 
 
-class ImporterAdminLink(admin.ModelAdmin):
+@admin.register(ImporterEntry)
+class ImporterAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         return HttpResponseRedirect(reverse("transaction_import"))
 

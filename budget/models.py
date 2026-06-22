@@ -1,9 +1,25 @@
 from datetime import date
+from decimal import Decimal
 
 from django.db import models
 from django.core.exceptions import ValidationError
-
 from django.contrib.postgres.fields import JSONField  
+from django.utils import timezone
+
+###########################################################################
+# Helper modules
+###########################################################################
+class TransactionQuerySet(models.QuerySet):
+    def for_period(self, period):
+        return self.filter(date__gte=period.start, date__lte=period.end)
+
+class BudgetQuerySet(models.QuerySet):
+    def for_period(self, period):
+        return self.filter(date__gte=period.start, date__lte=period.end)
+
+###########################################################################
+# Models
+###########################################################################
 
 class Account(models.Model):
     name = models.TextField(unique=True)
@@ -57,6 +73,9 @@ class Transaction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    objects = TransactionQuerySet.as_manager()    
+    
+    
     class Meta:
         ordering = ['-date']
 
@@ -77,40 +96,72 @@ class Transaction(models.Model):
             return "TRANSFER"
         return "NORMAL"
 
+class Budget(models.Model):
 
-class Budgets(models.Model):
+    class BudgetType(models.TextChoices):
+        PLANNED = "planned", "Planned"      # A dated obligation
+        TRANSIENT = "transient", "Transient"  # A dated spending intention
+
     category = models.ForeignKey(
         Category,
         on_delete=models.PROTECT,
-        related_name='budgets'
+        related_name="budgets",
     )
-    date = models.DateField(default="")   # required: defines WHEN the obligation occurs
+
+    # For PLANNED: the due date of the obligation
+    # For TRANSIENT: the anchor date used to assign this budget to a period
+    date = models.DateField()
+
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
+    type = models.CharField(
+        max_length=20,
+        choices=BudgetType.choices,
+    )
+
+    # Optional: which account is expected to satisfy this budget
     account = models.ForeignKey(
         Account,
         null=True,
         blank=True,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
     )
-
-    imp = models.IntegerField(default=0)              # grouping / importance
-    hist = models.CharField(max_length=50, blank=True)  # historical grouping tag
-    sort_key = models.IntegerField(default=0)         # optional UI ordering
 
     notes = models.TextField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    objects = BudgetQuerySet.as_manager()
+
     class Meta:
-        ordering = ['date', 'category', 'sort_key']
-
-    def __str__(self):
-        return f"{self.date} - {self.category} ({self.amount})"
-
+        ordering = ["date", "category__full_path"]
 
 class PeriodScheme(models.Model):
+    """
+    PeriodScheme Model
+    This model represents a scheme for defining periodic intervals with various types of rules. 
+    It supports multiple scheme types such as WEEKLY, MONTHLY, SEMIMONTHLY, and NTH_WEEKDAY, 
+    each with its own specific configuration fields.
+    Attributes:
+        SCHEME_TYPES (list): Choices for the type of period scheme.
+        name (CharField): The unique name of the period scheme.
+        scheme_type (CharField): The type of the scheme, selected from SCHEME_TYPES.
+        start_date (DateField): The optional start date for the scheme.
+        end_date (DateField): The optional end date for the scheme.
+        weekly_interval (PositiveIntegerField): Interval in weeks for WEEKLY schemes.
+        monthly_interval (PositiveIntegerField): Interval in months for MONTHLY schemes.
+        cut_day (PositiveSmallIntegerField): Day of the month for SEMIMONTHLY schemes.
+        nth_weekday (PositiveSmallIntegerField): Weekday (0=Monday, 6=Sunday) for NTH_WEEKDAY schemes.
+        nth_ordinal (PositiveSmallIntegerField): Ordinal (1=first, 2=second, etc.) for NTH_WEEKDAY schemes.
+        rules (JSONField): JSON representation of the rules for the scheme.
+        notes (TextField): Optional notes about the scheme.
+    Methods:
+        clean(): Validates the fields based on the selected scheme type.
+        get_rules(): Generates a dictionary representation of the rules based on the scheme type.
+        save(*args, **kwargs): Overrides the save method to regenerate rules and validate the model.
+        __str__(): Returns the name of the scheme as its string representation.
+    """
 
     SCHEME_TYPES = [
         ("WEEKLY", "Weekly"),
@@ -244,7 +295,6 @@ class PeriodScheme(models.Model):
     def __str__(self):
         return self.name
 
-
 class Period(models.Model):
     # The scheme this period belongs to
     scheme = models.ForeignKey(
@@ -274,5 +324,24 @@ class Period(models.Model):
 
     def __str__(self):
         return f"{self.scheme.name}: {self.label}"
+
+class ImporterEntry(models.Model):
+    """
+    ImporterEntry is a Django model class that represents an entry for running an importer.
+    This model is not managed by Django's ORM, meaning it does not create or modify the
+    corresponding database table. It is primarily used for interacting with an existing
+    database table or for other specific purposes.
+
+    Attributes:
+        Meta (class): Contains metadata for the model.
+            - managed (bool): Indicates that Django should not manage the database table.
+            - verbose_name (str): A human-readable name for the model in singular form.
+            - verbose_name_plural (str): A human-readable name for the model in plural form.
+    """
+    class Meta:
+        managed = False
+        verbose_name = "Run Importer"
+        verbose_name_plural = "Run Importer"
+
 
 

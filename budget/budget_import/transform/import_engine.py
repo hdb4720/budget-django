@@ -78,7 +78,7 @@ def run_import(df_rows, df_start, df_end, dry_run=False, display_results=False):
         "display_results": display_results,
         "df_start": df_start,
         "df_end": df_end,
-        "rows_to_insert": rows_to_insert if display_results else None,
-        "rows_to_delete": rows_to_delete if display_results else None,
+        "rows_to_insert": rows_to_insert,
+        "rows_to_delete": rows_to_delete,
         "summary": summary,
     }

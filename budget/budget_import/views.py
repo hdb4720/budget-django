@@ -32,11 +32,59 @@ def transaction_import_view(request):
                 display_results=display_results,
             )
 
-            # 4. Render results
+            # 4. Define headers and fields
+            insert_headers = [
+                "Account", 
+                "Category", 
+                "Date", 
+                "Description", 
+                "Memo", 
+                "Amount", 
+                "Seq"
+            ]
+            insert_fields  = [
+                "account_name", 
+                "category_path", 
+                "date", 
+                "description", 
+                "memo", 
+                "amount", 
+                "seq"
+            ]
+
+            delete_headers = [
+                "ID", 
+                "Account", 
+                "Category", 
+                "Date", 
+                "Description", 
+                "Memo", 
+                "Amount", 
+                "Seq"
+            ]
+            delete_fields  = [
+                "id", 
+                "account_name", 
+                "category_path", 
+                "date", 
+                "description", 
+                "memo", 
+                "amount", 
+                "seq"
+            ]
+
+            # 5. Render results
             return render(
                 request,
                 "budget_import/import_results.html",
-                {"result": result, "title": "Import Results"},
+                {
+                    "result": result, 
+                    "title": "Import Results",
+                    "insert_headers": insert_headers,
+                    "insert_fields": insert_fields,
+                    "delete_headers": delete_headers,
+                    "delete_fields": delete_fields,                    
+                },
             )
 
     else:

@@ -1,0 +1,31 @@
+{% load report_extras %}
+
+<div class="report-section">
+  <div class="report-section-header">
+    {{ title }} ({{ rows|length }})
+  </div>
+
+  <div class="report-section-content">
+    <div class="report-container">
+      <table class="report-table">
+        <thead>
+          <tr>
+            {% for header in headers %}
+            <th>{{ header }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for tx in rows %}
+          <tr>
+            {% for field in fields %}
+            <td>{{ tx|get_item:field }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

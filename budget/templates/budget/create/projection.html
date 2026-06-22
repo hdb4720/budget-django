@@ -1,0 +1,6 @@
+<h1>Projection Settings</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-success">Preview</button>
+</form>

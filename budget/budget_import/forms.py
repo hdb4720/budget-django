@@ -18,6 +18,6 @@ class TransactionImportForm(forms.Form):
 
     display_results = forms.BooleanField(
         required=False,
-        initial=False,
+        initial=True,
         label="Display Results (show inserts/deletes)"
     )
