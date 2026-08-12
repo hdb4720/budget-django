@@ -1,0 +1,9 @@
+<form hx-post="{% url 'budget-create' %}" 
+      hx-target="#budget-table" 
+      hx-swap="innerHTML"
+>
+
+  {{ form.as_p }}
+
+  <button class="btn btn-primary" type="submit">Save</button>
+</form>

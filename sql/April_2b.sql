@@ -13,7 +13,7 @@ budget_category c
 WHERE
 s.name = '4th Wednesday' AND
 p.scheme_id = s.id AND
-t.date BETWEEN p.start AND p.end AND
+t.trn_date BETWEEN p.start AND p.end AND
 a.id = t.account_id AND
 c.id = t.category_id
 AND (

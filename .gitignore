@@ -1,1 +1,33 @@
+# Keep environment variables out of Git
 .env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django stuff
+*.sqlite3
+*.log
+
+# Virtual environments
+venv/
+env/
+.py3143/
+
+# IDE/editor
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Local data (your project has lots of CSV/Excel dumps)
+data/
+tmp/
+
+# SQL scratch files
+sql/*.txt
+sql/tmp.sql

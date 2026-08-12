@@ -10,7 +10,7 @@ from budget.models import Category  # adjust import if needed
 @dataclass
 class PlannedBudgetRow:
     category: Category
-    due_date: date
+    due_date: due_date
     amount: Decimal
     status: str
     actual: Optional[Decimal]
@@ -20,7 +20,7 @@ class PlannedBudgetRow:
 @dataclass
 class TransientBudgetRow:
     category: Category
-    date: date
+    due_date: due_date
     estimate: Decimal
     actual: Decimal
     variance: Decimal
@@ -28,7 +28,7 @@ class TransientBudgetRow:
 
 @dataclass
 class TransactionRow:
-    date: date
+    trn_date: trn_date
     category: Optional[Category]
     description: str
     amount: Decimal

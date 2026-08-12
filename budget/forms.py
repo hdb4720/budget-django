@@ -191,3 +191,18 @@ class ProjectionSettingsForm(forms.Form):
         return cleaned
 
 
+from django import forms
+from .models import Budget
+
+class BudgetForm(forms.ModelForm):
+    class Meta:
+        model = Budget
+        fields = [
+            "category",
+            "type",
+            "account",
+            "amount",
+            "due_date",
+        ]
+
+

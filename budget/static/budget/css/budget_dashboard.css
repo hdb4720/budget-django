@@ -1,0 +1,9 @@
+.status-cell .badge i,
+.modal-body i {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    color: #000 !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+

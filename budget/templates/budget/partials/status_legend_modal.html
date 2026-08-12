@@ -1,0 +1,134 @@
+<!-- Status Legend Modal -->
+<div class="modal fade" id="statusLegendModal" tabindex="-1" aria-labelledby="statusLegendLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statusLegendLabel">
+          <i class="fa-solid fa-circle-info"></i> Status Legend
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row gy-3">
+            <!-- Overdue -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-circle-exclamation fa-lg me-3"></i>
+              <div>
+                <strong>Overdue</strong><br>
+                Budget was due in a past period and remains unpaid.
+              </div>
+            </div>
+            <!-- Due -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-clock fa-lg me-3"></i>
+              <div>
+                <strong>Due</strong><br>
+                Budget is due this period and not fully paid.
+              </div>
+            </div>
+            <!-- At Risk -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-triangle-exclamation fa-lg me-3"></i>
+              <div>
+                <strong>At Risk</strong><br>
+                Spending is approaching the budget limit.
+              </div>
+            </div>
+            <!-- Paid -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-circle-check fa-lg me-3"></i>
+              <div>
+                <strong>Paid</strong><br>
+                Budget fully paid for this period.
+              </div>
+            </div>
+            <!-- Future -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-calendar-plus fa-lg me-3"></i>
+              <div>
+                <strong>Future</strong><br>
+                Budget is scheduled for a future period.
+              </div>
+            </div>
+            <!-- Partial -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-circle-half-stroke fa-lg me-3"></i>
+              <div>
+                <strong>Partial</strong><br>
+                Budget partially paid but not complete.
+              </div>
+            </div>
+            <!-- No Activity -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-circle-minus fa-lg me-3"></i>
+              <div>
+                <strong>No Activity</strong><br>
+                No budget and no transactions.
+              </div>
+            </div>
+            <!-- Actual Exists / No Budget -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-receipt fa-lg me-3"></i>
+              <div>
+                <strong>Actual Exists</strong><br>
+                Transactions exist but no budget was defined.
+              </div>
+            </div>
+            <!-- Transactional Only -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-basket-shopping fa-lg me-3"></i>
+              <div>
+                <strong>Transactional Only</strong><br>
+                Transient category has spending but no budget entry.
+              </div>
+            </div>
+            <!-- Diff Not Zero -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-scale-balanced fa-lg me-3"></i>
+              <div>
+                <strong>Diff ≠ 0</strong><br>
+                Paid-to-date does not match the budget amount.
+              </div>
+            </div>
+            <!-- Overspent -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-fire fa-lg me-3"></i>
+              <div>
+                <strong>Overspent</strong><br>
+                Actual spending exceeds the budget.
+              </div>
+            </div>
+            <!-- Above Historical -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-chart-line fa-lg me-3"></i>
+              <div>
+                <strong>Above Historical</strong><br>
+                Spending exceeds historical maximum.
+              </div>
+            </div>
+            <!-- Below Historical -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-chart-area fa-lg me-3"></i>
+              <div>
+                <strong>Below Historical</strong><br>
+                Spending is below historical minimum.
+              </div>
+            </div>
+            <!-- Missing Due Date -->
+            <div class="col-12 d-flex align-items-start">
+              <i class="fa-solid fa-circle-question fa-lg me-3"></i>
+              <div>
+                <strong>Missing Due Date</strong><br>
+                Budget entry exists but no due date was provided.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

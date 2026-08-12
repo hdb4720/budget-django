@@ -1,7 +1,7 @@
 SELECT
 a.name AS account,
 c.full_path AS category,
-t.date,
+t.trn_date,
 SUM(t.amount) AS amount
 FROM 
 budget_transaction t,

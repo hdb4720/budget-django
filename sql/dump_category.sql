@@ -1,0 +1,1 @@
+\copy (    select         id,        full_path    from budget_category    order by 2) to 'C:/Users/hdb47/Downloads/category.csv' with (format csv, header true, delimiter '|');

@@ -1,0 +1,48 @@
+{% load humanize %}
+{% load report_extras %}
+
+<div class="report-section">
+  <div class="report-section-header">
+    {{ title }} ({{ rows|length }})
+  </div>
+
+  <div class="report-section-content">
+    <div class="report-container">
+      <table class="report-table">
+        <thead>
+          <tr>
+            {% for header in headers %}
+            <th>{{ header }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for tx in rows %}
+          <tr>
+            {% for field, dtype in fields %}
+            <td class="{{ dtype }}">
+              {% if dtype == "date" %}
+              {{ tx|get_item:field|date:"m-d-y" }}
+
+              {% elif dtype == "dec2" %}
+              {{ tx|get_item:field|floatformat:2|intcomma }}
+
+              {% elif dtype == "rawint" %}
+              {{ tx|get_item:field }}
+
+              {% elif dtype == "int" %}
+              {{ tx|get_item:field|intcomma }}
+
+              {% else %}
+              {{ tx|get_item:field }}
+              {% endif %}
+            </td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

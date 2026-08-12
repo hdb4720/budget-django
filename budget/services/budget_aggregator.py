@@ -55,7 +55,7 @@ class BudgetAggregator:
         rows = []
 
         for b in self.budgets_qs.filter(type="planned"):
-            due_date = b.date  # planned budgets use their explicit date
+            due_date = b.due_date  # planned budgets use their explicit date
 
             actual = self._match_transaction(b, due_date)
             variance = b.amount - (actual or Decimal("0"))
@@ -90,7 +90,7 @@ class BudgetAggregator:
         for category, total in by_cat.items():
             rows.append(TransientBudgetRow(
                 category=category,
-                date=self.period.end,  # display at end of period
+                due_date=self.period.end,  # display at end of period
                 estimate=total,
                 actual=self._sum_transactions(category),
                 variance=total - self._sum_transactions(category),
@@ -109,7 +109,7 @@ class BudgetAggregator:
             matched = self._find_matching_budget(t)
 
             rows.append(TransactionRow(
-                date=t.date,
+                due_date=t.trn_date,
                 category=t.category,
                 description=t.description,
                 amount=t.amount,
@@ -212,9 +212,9 @@ class BudgetAggregator:
         """
         tx = self.transactions_qs.filter(
             category=budget.category,
-            date__gte=self.period.start,
-            date__lte=self.period.end,
-        ).order_by('date').first()
+            due_date__gte=self.period.start,
+            due_date__lte=self.period.end,
+        ).order_by('due_date').first()
 
         return tx.amount if tx else None
 
@@ -235,8 +235,8 @@ class BudgetAggregator:
     def _sum_transactions(self, category):
         tx = self.transactions_qs.filter(
             category=category,
-            date__gte=self.period.start,
-            date__lte=self.period.end,
+            trn_date__gte=self.period.start,
+            trn_date__lte=self.period.end,
         ).aggregate(total=models.Sum('amount'))
 
         return tx['total'] or Decimal("0")
@@ -250,7 +250,7 @@ class BudgetAggregator:
         return self.budgets_qs.filter(
             type="planned",
             category=tx.category,
-            date__gte=self.period.start,
-            date__lte=self.period.end,
-        ).order_by('date').first()
+            due_date__gte=self.period.start,
+            due_date__lte=self.period.end,
+        ).order_by('due_date').first()
 

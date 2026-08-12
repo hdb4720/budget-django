@@ -1,0 +1,26 @@
+<!-- <tr id="budget-{{ row.id }}">
+  <td>{{ row.category.full_path }}</td>
+  <td>{{ row.type }}</td>
+  <td>{{ row.account.short_name }}</td>
+  <td>{{ row.budget_amount|floatformat:2 }}</td>
+  <td>{{ row.due_date }}</td>
+
+  <td>
+    <button 
+      class="btn btn-sm btn-primary" 
+      hx-get="{% url 'budget-edit' row.id %}" 
+      hx-target="#budget-{{ row.id }}"
+      hx-swap="outerHTML">
+      Edit
+    </button>
+
+    <button 
+      class="btn btn-sm btn-secondary" 
+      hx-get="{% url 'budget-duplicate' row.id %}" 
+      hx-target="#modal-body"
+      data-bs-toggle="modal" 
+      data-bs-target="#editModal">
+      Duplicate
+    </button>
+  </td>
+</tr> -->

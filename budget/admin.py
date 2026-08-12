@@ -13,6 +13,7 @@ from .models import (
     PeriodScheme,
     Period,
     ImporterEntry,
+    BudgetDashboardEntry,
 )
 
 # -----------------------------
@@ -41,13 +42,13 @@ class CategoryAdmin(admin.ModelAdmin):
 class TransactionAdmin(admin.ModelAdmin):
     list_display = (
         "account",
-        "date",
+        "trn_date",
         "description",
         "category",
         "memo",
         "amount",
     )
-    list_filter = ("account", "category", "date")
+    list_filter = ("account", "category", "trn_date")
     search_fields = ("description", "memo", "category__name")
     change_list_template = "admin/budget/transaction_changelist.html"
 
@@ -56,8 +57,8 @@ class TransactionAdmin(admin.ModelAdmin):
 # -----------------------------
 @admin.register(Budget)
 class BudgetAdmin(admin.ModelAdmin):
-    list_display = ("date", "category", "amount", "account", "type")
-    list_filter = ("date", "category", "account")
+    list_display = ("due_date", "category", "amount", "account", "type")
+    list_filter = ("due_date", "category", "account", "type")
     search_fields = ("category__name", "notes", "type")
 
 
@@ -108,5 +109,13 @@ class PeriodSchemeAdmin(admin.ModelAdmin):
 class ImporterAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         return HttpResponseRedirect(reverse("transaction_import"))
+
+
+@admin.register(BudgetDashboardEntry)
+class BudgetDashboardAdmin(admin.ModelAdmin):
+    def changelist_view(self, request, extra_context=None):
+        return HttpResponseRedirect(reverse("budget_dashboard"))
+
+
 
 
