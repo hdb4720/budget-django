@@ -1,0 +1,23 @@
+mananer
+    selector
+        Scheme
+        Period
+        Date
+    account
+        as of date
+        Account
+        balance
+    budget
+        Category
+        Type
+        Due Date
+        Amount Due
+        Amount Paid
+    open
+        Category
+        Amount Paid
+    inactive
+        Category
+    transactions
+        account
+        category

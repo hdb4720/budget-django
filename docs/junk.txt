@@ -1,0 +1,220 @@
+for row in manager:
+    row
+
+for row in manager:
+    row.details
+
+for row in manager:
+    len(row.details)
+
+for row in manager:
+    for detail in row.details:
+        detail
+        
+for index1, row1 in enumerate(manager):
+    index1
+    row1
+    for index2, row2 in enumerate(row1.details):
+        index2
+        row2
+        
+for index, detail in enumerate(row.details):
+    index
+    detail.__dict__
+
+for index, detail in enumerate(row.details):
+    print(f'index: {index}, due_date: {detail.due_date}')
+
+x = sorted(row.details.due_date)
+
+for index, detail in enumerate(row.details):
+    print(f'index: {index} due_date: {detail.due_date} budget_id: {detail.budget_id}')
+
+for detail in enumerate(row.details):
+    print(f'due_date: {detail.due_date} budget_id: {detail.budget_id}')
+
+in_due_date_order = sorted(row.details,key=lambda detail: (detail.due_date, detail.budget_id),)
+
+for budget in budgets:
+    print(f'id: {budget.id} due_date: {budget.due_date} category: {budget.category.full_path} amount: {budget.amount}')
+
+
+for index, detail in enumerate(in_due_date_order):
+    print(f'index: {index} due_date: {detail.due_date} budget_id: {detail.budget_id}')
+
+x
+
+
+
+for row in manager:
+    sort
+    for detail in sorted(
+        row.details, key=lambda detail: (detail.due_date, detail.seq)):
+        detail.__dict__
+
+
+
+for row in manager:
+    account_ids = {
+        detail.account_id
+        for detail in row.details
+    }
+    account_ids
+
+
+
+
+
+
+
+
+
+[due_date].sorted
+amount=0
+actual=0
+for detail in row.details:
+    row.due_date = due
+
+
+
+manager_requests
+manager_requests["selector"]
+manager_requests["selector"]["selected_scheme"]
+manager_requests["selector"]["selected_period"]
+manager_requests["selector"]["selected_date"]
+manager_requests["sorting"]
+manager_requests["sorting"]["sort_field"]
+manager_requests["sorting"]["sort_direction"]
+manager_requests["filtering"]
+
+for manager in context["manager"]:
+    manager.category
+
+for m in manager:
+    m.category
+
+
+
+len(manager)
+len(categories)
+len(category_options)
+
+category_options[:5]
+category_options[-5:]
+
+all(
+    category_options[index]["category"].casefold()
+    <= category_options[index + 1]["category"].casefold()
+    for index in range(len(category_options) - 1)
+)
+
+len(filter_options)
+len(filter_options["categories"])
+filter_options["categories"][:5]
+filter_options["categories"][-5:]
+
+len(filter_options.types)
+len(filter_options["types"])
+filter_options["types"][:5]
+filter_options["categories"][-5:]
+
+len(filter_options.statuses)
+len(filter_options["statuses"])
+filter_options["statuses"][:5]
+filter_options["statuses"][-5:]
+
+[
+(row.category_id, row.category, row.type)
+ for row in manager
+ if row.type and row.type.casefold() == "planned"
+]
+
+
+for m in manager:
+    print(f'due_date: {m.due_date} period_id: {m.period_id}')
+
+
+
+
+for key in context.keys():
+    print(f'Key: {key} Type: {type(context[key])}')
+
+vars(context["manager"][0])
+vars(context["manager"][0].details[0])
+
+manager_period_id = 22
+manager_category_id = 100
+manager = context["manager"]
+manager_row = next(
+    (
+        row
+        for row in manager
+        if row.period_id == manager_period_id
+        and row.category_id == manager_category_id
+    ),
+    None,
+)
+vars(manager_row)
+
+print(f'='*50)
+respond_to=context["respond_to"]
+manager_modal=context["manager_modal"]
+manager_row=context["manager_row"]
+manager_detail=context["manager_detail"]
+manager_selection=context["manager_selection"]
+print()
+print(f'respond_to: {respond_to}')
+print()
+print(f'manager_row: {vars(manager_row)}')
+print()
+print(f'manager_period_id: {manager_row.period_id}')
+print()
+print(f'manager_category_id: {manager_row.category_id}')
+print()
+print(f'manager_details: {manager_row.details}')
+print()
+print(f'manager_detail: {vars(manager_detail[0])}')
+print()
+print(f'manager_detail.budget_id: {manager_detail[0].budget_id}')
+print()
+print(f'manager_selection: {manager_selection}')
+
+
+print()
+print(context.keys())
+print()
+print(str(context["accounts"])[:100])
+print()
+print(vars(context["accounts"][0]))
+print()
+print(str(context["categories"])[:100])
+print()
+print(vars(context["categories"][0]))
+print()
+
+
+
+
+widget = budget_form.fields["due_date"].widget
+type(widget)
+widget.input_type
+widget.attrs
+print(budget_form["due_date"])
+budget_form.__class__
+budget_form.__class__.__module__
+budget_form._meta.widgets
+print(repr(budget_form._meta.widgets))
+import inspect
+print(inspect.getsource(budget_form.__class__))
+inspect.getfile(budget_form.__class__)
+import os
+os.getpid()
+form_path = inspect.getfile(budget_form.__class__)
+print(open(form_path, encoding="utf-8").read())
+
+
+request.POST
+
+
+
+

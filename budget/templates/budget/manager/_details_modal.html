@@ -1,0 +1,122 @@
+{% load template_extras %}
+<div x-data="{ selectedDetail: null }">
+  <input 
+    type="hidden" 
+    id="detail-manager-budget-id" 
+    name="manager_budget_id"
+    :value="selectedDetail === null ? '' : selectedDetail"
+  >
+  <input 
+    type="hidden" 
+    id="detail-manager-period-id" 
+    name="manager_period_id" 
+    value="{{ manager_row.period_id }}"
+  >
+  <input 
+    type="hidden" 
+    id="detail-manager-category-id" 
+    name="manager_category_id" 
+    value="{{ manager_row.category_id }}"
+  >
+  <div class="modal-header">
+    <div>
+      <h5 class="modal-title" id="detailModalLabel">
+        Budget Details
+      </h5>
+      <div class="text-muted small">
+        {{ manager_row.category }}
+      </div>
+    </div>
+    <button 
+      type="button" 
+      class="btn-close" 
+      data-bs-dismiss="modal" 
+      aria-label="Close"
+    >
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table class="table table-sm align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Budget ID</th>
+            <th scope="col">Account</th>
+            <th scope="col">Type</th>
+            <th scope="col">Due Date</th>
+            <th scope="col" class="text-end">Amount</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for detail in manager_details %}
+            <tr 
+              class="manager-detail-row" 
+              tabindex="0" 
+              role="button" 
+              @click="selectedDetail = {{ detail.budget_id }}"
+              @keydown.enter="selectedDetail = {{ detail.budget_id }}"
+              @keydown.space.prevent="selectedDetail = {{ detail.budget_id }}" 
+              :class="{
+                'table-primary':
+                  selectedDetail === {{ detail.budget_id }}
+              }" 
+              :aria-selected="
+                selectedDetail === {{ detail.budget_id }}
+              "
+            >
+              <td>
+                {% if detail.budget_id is not None %}
+                  {{ detail.budget_id }}
+                {% else %}
+                  Unbudgeted
+                {% endif %}
+              </td>
+              <td>{{ detail.account|default:"" }}</td>
+              <td>{{ detail.type }}</td>
+              <td>
+                {% if detail.due_date %}
+                  {{ detail.due_date|date:"m-d-y" }}
+                {% endif %}
+              </td>
+              <td class="text-end">
+                {{ detail.amount|floatformat:"2g" }}
+              </td>
+              <td>{{ detail.notes|default:"" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button 
+      type="button" 
+      class="btn btn-primary" 
+      x-bind:disabled="selectedDetail === null"
+      hx-get="{% url 'budget-manager' %}" 
+      hx-target="#detail-modal-content" 
+      hx-swap="innerHTML" 
+      hx-vals='{
+        "respond_to": "selection"}' 
+      hx-include="
+        #detail-manager-budget-id,
+        #detail-manager-period-id,
+        #detail-manager-category-id,
+        [name='scheme'],
+        [name='period'],
+        [name='selected_date']
+      "
+    >
+      Select
+    </button>
+    <button 
+      type="button" 
+      class="btn btn-secondary" 
+      data-bs-dismiss="modal"
+    >
+      Close
+    </button>
+  </div>
+</div>
+

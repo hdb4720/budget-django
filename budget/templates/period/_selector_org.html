@@ -1,0 +1,109 @@
+<div id="manager-selector" class="mt-4">
+  <div class="card mb-3">
+    <div class="card-body d-flex align-items-end">
+      <div class="flex-grow-1 me-3">
+        <div class="row mb-3" 
+            x-data="{
+              scheme_id: '{{ scheme.id }}',
+              period_id: '{{ period.id }}',
+              prev_period: '{% if prev_period %}{{ prev_period.id }}{% endif %}',
+              next_period: '{% if next_period %}{{ next_period.id }}{% endif %}',
+              selected_date: '{{ selected_date }}',
+            }"
+          >
+          <div class="col-md-4">
+            <label class="form-label">Scheme</label>
+            <select 
+              class="form-select" 
+              name="scheme" 
+              value="{{ scheme.id }}"
+              x-model="scheme_id" 
+              hx-get="{% url 'budget-manager' %}"
+              hx-target="#manager-container" 
+              hx-trigger="change" 
+              hx-push-url="true" 
+              hx-vals='{"respond_to":"selector"}'
+            >
+              {% for s in schemes %}
+                <option value="{{ s.id }}" {% if s.id == scheme.id %}selected{% endif %}>
+                  {{ s.name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Period</label>
+            <div class="d-flex align-items-center gap-2">
+              <!-- Prev -->
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary btn-sm" 
+                {% if prev_period %}
+                  hx-get="{% url 'budget-manager' %}?scheme={{ scheme.id }}&period={{ prev_period.id }}" 
+                  hx-target="#manager-selector"
+                  hx-push-url="true" 
+                  hx-vals='{"respond_to":"selector"}'
+                  hx-include="[name='scheme'], [name='prev_period']" 
+                {% else %} 
+                  disabled {% endif %}
+              >
+              &larr;
+              </button>
+              <!-- Period select -->
+              <select 
+                class="form-select" 
+                name="period" 
+                x-model="period_id"
+                x-ref="periodSelect"
+                hx-get="{% url 'budget-manager' %}"
+                hx-target="#manager-selector" 
+                hx-trigger="change" 
+                hx-push-url="true"
+                hx-vals='{"respond_to":"selector"}'
+                hx-include="[name='scheme'], [name='period']"
+              >
+                {% for p in periods %}
+                  <option value="{{ p.id }}" {% if p.id == period.id %}selected{% endif %}>
+                    {{ p.start }} — {{ p.end }}
+                  </option>
+                {% endfor %}
+              </select>
+              <!-- Next -->
+              <button 
+                type="button"
+                class="btn btn-outline-secondary btn-sm"
+                {% if next_period %}
+                    hx-get="{% url 'budget-manager' %}?scheme={{ scheme.id }}&period={{ next_period.id }}"
+                    hx-target="#manager-selector"
+                    hx-push-url="true"
+                    hx-vals='{"respond_to":"selector"}'
+                    hx-include="[name='scheme'], [name='next_period']"
+                {% else %}
+                    disabled
+                {% endif %}
+              >
+              &rarr;
+              </button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Date</label>
+            <input 
+              type="date" 
+              name="selected_date" 
+              value="{{ selected_date }}"
+              class="form-control" 
+              x-model="selected_date"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-selector"
+              hx-trigger="change" 
+              hx-push-url="true" 
+              hx-vals='{"respond_to":"selector"}'
+              hx-include="[name='scheme']"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

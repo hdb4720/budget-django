@@ -1,9 +1,9 @@
 from django.urls import path, include
 
-from . import view
+from budget.budget.views_manager import BudgetManagerView
 
 urlpatterns = [
-    path("budget-dashboard/", view.BudgetAnalysisView.as_view(), name="budget_dashboard"),
+    path("manager/", BudgetManagerView.as_view(), name="budget-manager"),
     path("importer/", include("budget.importer.urls")),
 ]
 

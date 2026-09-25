@@ -1,0 +1,162 @@
+<div>
+  <div class="modal-header">
+    <div>
+      <h5 class="modal-title" id="detailModalLabel">
+        {% if manager_selection.budget_id %}
+          Budget {{ manager_selection.budget_id }}
+        {% else %}
+          Add Budget
+        {% endif %}
+      </h5>
+      <div class="text-muted small">
+        {{ manager_selection.category }}
+      </div>
+    </div>
+    <button 
+      type="button" 
+      class="btn-close" 
+      data-bs-dismiss="modal" 
+      aria-label="Close">
+    </button>
+  </div>
+
+
+  <form 
+    id="budget-selection-form" 
+    hx-post="{% url 'budget-manager' %}" 
+    hx-target="#detail-modal-content"
+    hx-swap="innerHTML"
+  >
+    {% csrf_token %}
+    <input 
+      type="hidden" 
+      name="manager_budget_id" 
+      value="{{ manager_selection.budget_id }}"
+    >
+    <input 
+      type="hidden" 
+      name="manager_period_id" 
+      value="{{ manager_row.period_id }}"
+    >
+    <input 
+      type="hidden" 
+      name="manager_category_id" 
+      value="{{ manager_row.category_id }}"
+    >
+    <input 
+      type="hidden" 
+      name="scheme" 
+      value="{{ scheme.id }}"
+    >
+    <input 
+      type="hidden" 
+      name="period" 
+      value="{{ period.id }}"
+    >
+    <input 
+      type="hidden" 
+      name="selected_date" 
+      value="{{ selected_date|date:'Y-m-d' }}"
+    >
+    <div class="modal-body">
+      <div class="mb-3">
+        <label 
+          for="{{ budget_form.category.id_for_label }}" 
+          class="form-label"
+        >
+          Category
+        </label>
+        {{ budget_form.category }}
+        {{ budget_form.category.errors }}
+      </div>
+      <div class="mb-3">
+        <label 
+          for="{{ budget_form.type.id_for_label }}" 
+          class="form-label"
+        >
+          Type
+        </label>
+        {{ budget_form.type }}
+        {{ budget_form.type.errors }}
+      </div>
+      <div class="mb-3">
+        <label 
+          for="{{ budget_form.due_date.id_for_label }}" 
+          class="form-label"
+        >
+          Due Date
+        </label>
+        {{ budget_form.due_date }}
+        {{ budget_form.due_date.errors }}
+      </div>
+      <div class="mb-3">
+        <label 
+          for="{{ budget_form.amount.id_for_label }}" 
+          class="form-label"
+        >
+          Amount
+        </label>
+        {{ budget_form.amount }}
+        {{ budget_form.amount.errors }}
+      </div>
+      <div class="mb-3">
+        <label 
+          for="{{ budget_form.account.id_for_label }}" 
+          class="form-label"
+        >
+          Account
+        </label>
+        {{ budget_form.account }}
+        {{ budget_form.account.errors }}
+      </div>
+      <div class="mb-3">
+        <label 
+          for="{{ budget_form.notes.id_for_label }}" 
+          class="form-label"
+        >
+          Notes
+        </label>
+        {{ budget_form.notes }}
+        {{ budget_form.notes.errors }}
+      </div>
+    </div>
+    <div class="modal-footer">
+      {% if manager_selection.budget_id %}
+      <button 
+        type="submit" 
+        class="btn btn-danger me-auto" 
+        name="action" 
+        value="delete" 
+        formnovalidate
+        hx-confirm="Delete Budget {{ manager_selection.budget_id }}? This cannot be undone."
+      >
+        Delete Budget
+      </button>
+      <button 
+          type="submit" 
+          class="btn btn-primary" 
+          name="action" 
+          value="update"
+        >
+          Update This Budget
+        </button>
+      {% endif %}
+      <button 
+        type="submit" 
+        class="btn btn-success" 
+        name="action" 
+        value="create"
+      >
+        Create Budget
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        data-bs-dismiss="modal"
+      >
+        Close
+      </button>
+    </div>
+  </form>
+</div>
+

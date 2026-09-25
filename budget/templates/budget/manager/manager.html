@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div id="manager-container" class="container mt-4">
+  {% include "budget/manager/_display.html" %}
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div id="detail-modal-content" class="modal-content">
+      <!-- HTMX will insert the detail display here. -->
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{%block styles %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'budget/css/budget_manager.css' %}">
+{% endblock %}

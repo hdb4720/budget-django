@@ -1,0 +1,67 @@
+{% load template_extras %}
+<tr class="status-{{ item.css_class }} manager-status-row border-bottom">
+  <!-- Category (with optional indentation) -->
+  <td class="category-cell">
+    <span title="{{ item.category }}">  
+        {{ item.category|truncatechars:30 }}
+    </span>
+  </td>
+  <!-- Type (left aligned) -->
+  <td class="text-start text-nowrap">
+    {{ item.type }}
+  </td>
+  <!-- Account (left aligned) -->
+  <td class="text-start text-nowrap">
+    {{ item.account|truncatechars:10 }}
+  </td>
+  <!-- Due Date (right aligned) -->
+  <td class="text-end text-nowrap">
+    {{ item.due_date|date:"m-d-y" }}
+  </td>
+  <!-- Due Amount (right aligned) -->
+  <td class="text-end text-nowrap">
+    {{ item.amount|floatformat:"2g" }}
+  </td>
+  <!-- Actual (right aligned) -->
+  <td class="text-end text-nowrap">
+    {{ item.actual|floatformat:"2g" }}
+  </td>
+  <!-- Difference (right aligned) -->
+  <td class="text-end text-nowrap">
+    {{ item.difference|floatformat:"2g" }}
+  </td>
+  <!-- Status (right aligned) -->
+  <td class="text-end text-nowrap">
+    {{ item.status }}
+    <i
+      class="fa-solid {{ item.icon }} manager-status-icon"
+      title="{{ item.label }}"
+      aria-label="{{ item.label }}"
+    ></i>    
+  </td>
+  <!-- Action button -->
+  <td class="text-nowrap">
+    <button 
+      type="button" 
+      class="btn btn-sm btn-primary" 
+      hx-get="{% url 'budget-manager' %}"
+      hx-target="#detail-modal-content" 
+      hx-swap="innerHTML" 
+      hx-vals='{
+        "respond_to": "details",
+        "manager_period_id": "{{ item.period_id }}",
+        "manager_category_id": "{{ item.category_id }}"
+      }' 
+      hx-include="[name='scheme'], [name='period'], [name='selected_date']" 
+      data-bs-toggle="modal"
+      data-bs-target="#detailModal"
+    >
+      Detail
+    </button>
+
+
+
+
+
+  </td>
+</tr>

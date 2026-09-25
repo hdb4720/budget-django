@@ -1,0 +1,169 @@
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.badge {
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+:root {
+    --status-future: #9c44b5;
+    --status-future-background: #e2a3f3;
+
+    --status-met: #0e7213;
+    --status-met-background: #9ef0a2;
+
+    --status-due-today: #c2410c;
+    --status-due-today-background: #f55757;
+
+    --status-overdue: #f00e0e;
+    --status-overdue-background: #f35353;
+
+    --status-pending: #47e6e3;
+    --status-pending-background: #b8e79f;
+
+    --status-partial: #7fe047;
+    --status-partial-background: #7fe047; 
+
+    --status-on-track: #7fe047;
+    --status-on-track-background: #7fe047;
+
+    --status-unbudgeted: #d3bfcc;
+    --status-unbudgeted-background: #fff4ce;
+
+    --status-incomplete: #64686b;
+    --status-incomplete-background: #f2f2f2;
+
+    --status-active: #0f6b78;
+    --status-active-background: #e6f4f1;
+
+    --status-overfilled: #b91c1c;
+    --status-overfilled-background: #fdecec;
+
+    --status-available: #1d4ed8;
+    --status-available-background: #eaf0ff;
+
+    --status-watch: #b45309;
+    --status-watch-background: #fff4ce;
+
+    --status-budget-used: #7e22ce;
+    --status-budget-used-background: #f5eafe;
+}
+
+.category-cell {
+    font-weight: 500;
+}
+
+.status-incomplete {
+    --row-status-color: var(--status-incomplete);
+    --row-status-background: var(--status-incomplete-background);
+}
+
+.status-due-today {
+    --row-status-color: var(--status-due-today);
+    --row-status-background: var(--status-due-today-background);
+}
+
+.status-overdue {
+    --row-status-color: var(--status-overdue);
+    --row-status-background: var(--status-overdue-background);
+}
+
+.status-pending {
+    --row-status-color: var(--status-pending);
+    --row-status-background: var(--status-pending-background);
+}
+
+.status-partial {
+    --row-status-color: var(--status-partial);
+    --row-status-background: var(--status-partial-background);
+}
+
+.status-overfilled {
+    --row-status-color: var(--status-overfilled);
+    --row-status-background: var(--status-overfilled-background);
+}
+
+.status-unbudgeted {
+    --row-status-color: var(--status-unbudgeted);
+    --row-status-background: var(--status-unbudgeted-background);
+}
+
+.status-available {
+    --row-status-color: var(--status-available);
+    --row-status-background: var(--status-available-background);
+}
+
+.status-on-track {
+    --row-status-color: var(--status-on-track);
+    --row-status-background: var(--status-on-track-background);
+}
+
+.status-watch {
+    --row-status-color: var(--status-watch);
+    --row-status-background: var(--status-watch-background);
+}
+
+.status-budget-used {
+    --row-status-color: var(--status-budget-used);
+    --row-status-background: var(--status-budget-used-background);
+}
+
+.status-exceeded {
+    --row-status-color: var(--status-exceeded);
+    --row-status-background: var(--status-exceeded-background);
+}
+
+.status-active {
+    --row-status-color: var(--status-active);
+    --row-status-background: var(--status-active-background);
+}
+
+.status-met {
+    --row-status-color: var(--status-met);
+    --row-status-background: var(--status-met-background);
+}
+
+.status-future {
+    --row-status-color: var(--status-future);
+    --row-status-background: var(--status-future-background);
+}
+
+.manager-status-icon {
+    color: var(--row-status-color);
+    margin-left: 0.35rem;
+}
+
+.manager-status-edge {
+    border-left: 5px solid var(--row-status-color);
+}
+
+.manager-status-cell {
+    color: var(--row-status-color);
+    background-color: var(--row-status-background) !important;
+}
+
+.manager-status-row>td {
+    background-color: var(--row-status-background) !important;
+}
+
+.manager-detail-row {
+    cursor: pointer;
+}
+
+.manager-detail-row:focus {
+    outline: 2px solid #0d6efd;
+    outline-offset: -2px;
+}
+
+
+
+
+

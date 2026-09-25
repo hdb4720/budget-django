@@ -13,7 +13,6 @@ from .models import (
     PeriodScheme,
     Period,
     ImporterEntry,
-    BudgetDashboardEntry,
 )
 
 # -----------------------------
@@ -109,13 +108,5 @@ class PeriodSchemeAdmin(admin.ModelAdmin):
 class ImporterAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         return HttpResponseRedirect(reverse("transaction_import"))
-
-
-@admin.register(BudgetDashboardEntry)
-class BudgetDashboardAdmin(admin.ModelAdmin):
-    def changelist_view(self, request, extra_context=None):
-        return HttpResponseRedirect(reverse("budget_dashboard"))
-
-
 
 

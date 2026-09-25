@@ -1,0 +1,226 @@
+<!-- Budget Table -->
+<div id="manager-table" class="container-fluid mt-4 px-3">
+  <div class="table-responsive">
+    <table class="table table-hover table-sm align-middle"
+          style="min-width: 1200px; table-layout: fixed; font-variant-numeric: tabular-nums;">
+      <colgroup>
+        <col style="width: 15%">
+        <col style="width: 7%">
+        <col style="width: 7%">
+        <col style="width: 7%">
+        <col style="width: 7%">
+        <col style="width: 7%">
+        <col style="width: 7%">
+        <col style="width: 7%">
+        <col style="width: 6%">
+      </colgroup>
+      <thead class="table-light sticky-top text-nowrap">
+        <tr>
+          <th scope="col">
+            <button 
+              type="button" 
+              class="btn btn-link p-0 text-reset text-decoration-none fw-semibold"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-table" 
+              hx-swap="outerHTML" 
+              hx-vals='{
+                "respond_to": "table",
+                "sort_field": "category",
+                "sort_direction": "{% if sorting.sort_field == 'category' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
+              }'              
+              hx-include="[name='scheme'], [name='period'], [name='selected_date']">
+              Category
+              {% if sorting.sort_field == "category" %}
+                {% if sorting.sort_direction == "asc" %}
+                  <i class="fa-solid fa-arrow-up ms-1" aria-label="Ascending"></i>
+                {% else %}
+                  <i class="fa-solid fa-arrow-down ms-1" aria-label="Descending"></i>
+                {% endif %}
+              {% endif %}
+            </button>
+          </th>
+          <th scope="col">
+            <button 
+              type="button" 
+              class="btn btn-link p-0 text-reset text-decoration-none fw-semibold"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-table" 
+              hx-swap="outerHTML" 
+              hx-vals='{
+                "respond_to": "table",
+                "sort_field": "type",
+                "sort_direction": "{% if sorting.sort_field == 'type' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
+              }' 
+              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+            >
+              Type
+              {% if sorting.sort_field == "type" %}
+                {% if sorting.sort_direction == "asc" %}
+                  <i class="fa-solid fa-arrow-up ms-1" aria-label="Ascending"></i>
+                {% else %}
+                  <i class="fa-solid fa-arrow-down ms-1" aria-label="Descending"></i>
+                {% endif %}
+              {% endif %}
+            </button>
+          </th>
+          <th scope="col">
+            <button 
+              type="button" 
+              class="btn btn-link p-0 text-reset text-decoration-none fw-semibold"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-table" 
+              hx-swap="outerHTML" 
+              hx-vals='{
+                "respond_to": "table",
+                "sort_field": "account",
+                "sort_direction": "{% if sorting.sort_field == 'account' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
+              }' 
+              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+            >
+              Account
+              {% if sorting.sort_field == "account" %}
+                {% if sorting.sort_direction == "asc" %}
+                  <i class="fa-solid fa-arrow-up ms-1" aria-label="Ascending"></i>
+                {% else %}
+                  <i class="fa-solid fa-arrow-down ms-1" aria-label="Descending"></i>
+                {% endif %}
+              {% endif %}
+            </button>
+          </th>
+          <th scope="col" class="text-end">
+            <button 
+              type="button" 
+              class="btn btn-link p-0 text-reset text-decoration-none fw-semibold"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-table" 
+              hx-swap="outerHTML" 
+              hx-vals='{
+                "respond_to": "table",
+                "sort_field": "due_date",
+                "sort_direction": "{% if sorting.sort_field == 'due_date' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
+              }' 
+              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+            >
+              Due Date
+              {% if sorting.sort_field == "due_date" %}
+                {% if sorting.sort_direction == "asc" %}
+                  <i class="fa-solid fa-arrow-up ms-1" aria-label="Ascending"></i>
+                {% else %}
+                  <i class="fa-solid fa-arrow-down ms-1" aria-label="Descending"></i>
+                {% endif %}
+              {% endif %}
+            </button>
+          </th>
+          <th scope="col" class="text-end">
+            <button 
+              type="button" 
+              class="btn btn-link p-0 text-reset text-decoration-none fw-semibold"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-table" 
+              hx-swap="outerHTML" 
+              hx-vals='{
+                "respond_to": "table",
+                "sort_field": "amount",
+                "sort_direction": "{% if sorting.sort_field == 'amount' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
+              }' 
+              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+            >
+              Amount
+              {% if sorting.sort_field == "amount" %}
+                {% if sorting.sort_direction == "asc" %}
+                  <i class="fa-solid fa-arrow-up ms-1" aria-label="Ascending"></i>
+                {% else %}
+                  <i class="fa-solid fa-arrow-down ms-1" aria-label="Descending"></i>
+                {% endif %}
+              {% endif %}
+            </button>
+          </th>
+
+          <th scope="col" class="text-end">
+            <button 
+              type="button" 
+              class="btn btn-link p-0 text-reset text-decoration-none fw-semibold"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-table" 
+              hx-swap="outerHTML" 
+              hx-vals='{
+                "respond_to": "table",
+                "sort_field": "actual",
+                "sort_direction": "{% if sorting.sort_field == 'actual' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
+              }' 
+              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+            >
+              Actual
+              {% if sorting.sort_field == "actual" %}
+                {% if sorting.sort_direction == "asc" %}
+                  <i class="fa-solid fa-arrow-up ms-1" aria-label="Ascending"></i>
+                {% else %}
+                  <i class="fa-solid fa-arrow-down ms-1" aria-label="Descending"></i>
+                {% endif %}
+              {% endif %}
+            </button>
+          </th>
+          <th scope="col" class="text-end">
+            <button 
+              type="button" 
+              class="btn btn-link p-0 text-reset text-decoration-none fw-semibold"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-table" 
+              hx-swap="outerHTML" 
+              hx-vals='{
+                "respond_to": "table",
+                "sort_field": "difference",
+                "sort_direction": "{% if sorting.sort_field == 'difference' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
+              }' 
+              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+            >
+              Difference
+              {% if sorting.sort_field == "difference" %}
+                {% if sorting.sort_direction == "asc" %}
+                  <i class="fa-solid fa-arrow-up ms-1" aria-label="Ascending"></i>
+                {% else %}
+                  <i class="fa-solid fa-arrow-down ms-1" aria-label="Descending"></i>
+                {% endif %}
+              {% endif %}
+            </button>
+          </th>
+          <th scope="col" class="text-end">
+            <button 
+              type="button" 
+              class="btn btn-link p-0 text-reset text-decoration-none fw-semibold"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-table" 
+              hx-swap="outerHTML" 
+              hx-vals='{
+                "respond_to": "table",
+                "sort_field": "status",
+                "sort_direction": "{% if sorting.sort_field == 'status' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
+              }' 
+              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+            >
+              Status
+              {% if sorting.sort_field == "status" %}
+                {% if sorting.sort_direction == "asc" %}
+                  <i class="fa-solid fa-arrow-up ms-1" aria-label="Ascending"></i>
+                {% else %}
+                  <i class="fa-solid fa-arrow-down ms-1" aria-label="Descending"></i>
+                {% endif %}
+              {% endif %}
+            </button>
+          </th>
+          <th scope="col">
+            <span class="visually-hidden">
+              Action
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <!-- Budget Rows -->
+      <tbody id="manager-table-body">
+        {% for item in manager %}
+          {% include "budget/manager/_row.html" with item=item %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

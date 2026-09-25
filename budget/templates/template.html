@@ -1,0 +1,57 @@
+<div id="" class="mt-4">
+  <div class="card mb-3">
+    <div class="card-body d-flex align-items-end">
+      <div class="flex-grow-1 me-3">
+        <div class="row mb-3" x-data="{
+              template: '{{ template }}',
+            }">
+          <div class="col-md-4">
+            <label class="form-label">Template</label>
+            <select class="form-select" name="template" value="{{ x }}" x-model="template"
+              hx-get="{% url 'template' %}" 
+                hx-target="#template" 
+                hx-trigger="change" 
+                hx-push-url="true"
+                hx-vals='{"respond_to":"template"}'>
+              {% for t in x %}
+              <option value="{{ t.id }}" {% if t.id == template.id %}selected{% endif %}>
+                {{ t.name }}
+              </option>
+              {% endfor %}
+            </select>
+            <button 
+              type="button" 
+              class="btn btn-outline-secondary btn-sm" 
+              {% if template %}
+                hx-get="{% url 'template' %}?template={{ template.id }}&template={{ template.id }}" 
+                hx-target="#manager-selector"
+                hx-push-url="true" 
+                hx-vals='{"respond_to":"template"}' 
+                hx-include="[name='template'], [name='template']" 
+              {% else %}
+                disabled 
+              {% endif %}>
+              &larr;
+            </button>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">template</label>
+            <input 
+              type="date" 
+              name="template" 
+              value="{{ template }}" 
+              class="form-control"
+              x-model="template" 
+              hx-get="{% url 'template' %}" 
+              hx-target="#template"
+              hx-trigger="change" 
+              hx-push-url="true" 
+              hx-vals='{"respond_to":"template"}' 
+              hx-include="[name='template']"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
