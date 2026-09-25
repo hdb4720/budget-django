@@ -8,54 +8,111 @@
                     period_id: '{{ period.id }}',
                     prev_period: '{% if prev_period %}{{ prev_period.id }}{% endif %}',
                     next_period: '{% if next_period %}{{ next_period.id }}{% endif %}',
-                    selected_date: '{{ selected_date }}',
+                    selected_date: '{{ selected_date|date:"Y-m-d" }}',
                   }">
           <div class="col-md-4">
-            <label class="form-label">Scheme</label>
-            <select class="form-select" name="scheme" value="{{ scheme.id }}" x-model="scheme_id"
-              hx-get="{% url 'budget-manager' %}" hx-target="#manager-display" hx-trigger="change" hx-push-url="true"
-              hx-vals='{"respond_to":"display"}'>
+            <label 
+            class="form-label"
+            >
+              Scheme
+            </label>
+            <select 
+              id="selector-scheme"
+              class="form-select" 
+              name="scheme" 
+              value="{{ scheme.id }}" 
+              x-model="scheme_id"
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-display" 
+              hx-trigger="change" 
+              hx-push-url="true"
+              hx-vals='{"respond_to":"display"}'
+            >
               {% for s in schemes %}
-              <option value="{{ s.id }}" {% if s.id == scheme.id %}selected{% endif %}>
-                {{ s.name }}
-              </option>
+                <option value="{{ s.id }}" {% if s.id == scheme.id %}selected{% endif %}>
+                  {{ s.name }}
+                </option>
               {% endfor %}
             </select>
           </div>
           <div class="col-md-4">
-            <label class="form-label">Period</label>
+            <label 
+              class="form-label"
+            >
+              Period
+            </label>
             <div class="d-flex align-items-center gap-2">
               <!-- Prev -->
-              <button type="button" class="btn btn-outline-secondary btn-sm" {% if prev_period %}
-                hx-get="{% url 'budget-manager' %}?scheme={{ scheme.id }}&period={{ prev_period.id }}"
-                hx-target="#manager-display" hx-push-url="true" hx-vals='{"respond_to":"display"}'
-                hx-include="[name='scheme'], [name='prev_period']" {% else %} disabled {% endif %}>
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary btn-sm" 
+                {% if prev_period %}
+                  hx-get="{% url 'budget-manager' %}?scheme={{ scheme.id }}&period={{ prev_period.id }}"
+                  hx-target="#manager-display" 
+                  hx-push-url="true" 
+                  hx-vals='{"respond_to":"display"}'
+                {% else %} 
+                  disabled 
+                {% endif %}>
                 &larr;
               </button>
               <!-- Period select -->
-              <select class="form-select" name="period" x-model="period_id" x-ref="periodSelect"
-                hx-get="{% url 'budget-manager' %}" hx-target="#manager-display" hx-trigger="change" hx-push-url="true"
-                hx-vals='{"respond_to":"display"}' hx-include="[name='scheme'], [name='period']">
+              <select 
+                id="selector-period"
+                class="form-select" 
+                name="period" 
+                x-model="period_id" 
+                x-ref="periodSelect"
+                hx-get="{% url 'budget-manager' %}" 
+                hx-target="#manager-display" 
+                hx-trigger="change" 
+                hx-push-url="true"
+                hx-vals='{"respond_to":"display"}' 
+                hx-include="#selector-scheme"
+              >
                 {% for p in periods %}
-                <option value="{{ p.id }}" {% if p.id == period.id %}selected{% endif %}>
-                  {{ p.start_date }} — {{ p.end_date }}
-                </option>
+                  <option 
+                    value="{{ p.id }}" 
+                    {% if p.id == period.id %}selected{% endif %}>
+                    {{ p.start_date }} — {{ p.end_date }}
+                  </option>
                 {% endfor %}
               </select>
               <!-- Next -->
-              <button type="button" class="btn btn-outline-secondary btn-sm" {% if next_period %}
-                hx-get="{% url 'budget-manager' %}?scheme={{ scheme.id }}&period={{ next_period.id }}"
-                hx-target="#manager-display" hx-push-url="true" hx-vals='{"respond_to":"display"}'
-                hx-include="[name='scheme'], [name='next_period']" {% else %} disabled {% endif %}>
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary btn-sm" 
+                {% if next_period %}
+                  hx-get="{% url 'budget-manager' %}?scheme={{ scheme.id }}&period={{ next_period.id }}"
+                  hx-target="#manager-display" 
+                  hx-push-url="true" 
+                  hx-vals='{"respond_to":"display"}'
+                {% else %} 
+                  disabled 
+                {% endif %}>
                 &rarr;
               </button>
             </div>
           </div>
           <div class="col-md-4">
-            <label class="form-label">Date</label>
-            <input type="date" name="selected_date" value="{{ selected_date }}" class="form-control"
-              x-model="selected_date" hx-get="{% url 'budget-manager' %}" hx-target="#manager-display"
-              hx-trigger="change" hx-push-url="true" hx-vals='{"respond_to":"display"}' hx-include="[name='scheme']">
+            <label 
+              class="form-label">
+              Date
+            </label>
+            <input 
+              id="selector-selected-date"
+              type="date" 
+              name="selected_date" 
+              value="{{ selected_date|date:'Y-m-d' }}" 
+              class="form-control"
+              x-model="selected_date" 
+              hx-get="{% url 'budget-manager' %}" 
+              hx-target="#manager-display"
+              hx-trigger="change" 
+              hx-push-url="true" 
+              hx-vals='{"respond_to":"display"}' 
+              hx-include="#selector-scheme"
+            >
           </div>
         </div>
       </div>

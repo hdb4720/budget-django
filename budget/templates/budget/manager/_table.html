@@ -28,7 +28,7 @@
                 "sort_field": "category",
                 "sort_direction": "{% if sorting.sort_field == 'category' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
               }'              
-              hx-include="[name='scheme'], [name='period'], [name='selected_date']">
+              hx-include="#selector-scheme, #selector-period, #selector-selected_date" 
               Category
               {% if sorting.sort_field == "category" %}
                 {% if sorting.sort_direction == "asc" %}
@@ -51,7 +51,7 @@
                 "sort_field": "type",
                 "sort_direction": "{% if sorting.sort_field == 'type' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
               }' 
-              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+              hx-include="#selector-scheme, #selector-period, #selector-selected_date" 
             >
               Type
               {% if sorting.sort_field == "type" %}
@@ -75,7 +75,7 @@
                 "sort_field": "account",
                 "sort_direction": "{% if sorting.sort_field == 'account' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
               }' 
-              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+              hx-include="#selector-scheme, #selector-period, #selector-selected_date" 
             >
               Account
               {% if sorting.sort_field == "account" %}
@@ -99,7 +99,7 @@
                 "sort_field": "due_date",
                 "sort_direction": "{% if sorting.sort_field == 'due_date' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
               }' 
-              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+              hx-include="#selector-scheme, #selector-period, #selector-selected_date" 
             >
               Due Date
               {% if sorting.sort_field == "due_date" %}
@@ -123,7 +123,7 @@
                 "sort_field": "amount",
                 "sort_direction": "{% if sorting.sort_field == 'amount' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
               }' 
-              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+              hx-include="#selector-scheme, #selector-period, #selector-selected_date" 
             >
               Amount
               {% if sorting.sort_field == "amount" %}
@@ -148,7 +148,7 @@
                 "sort_field": "actual",
                 "sort_direction": "{% if sorting.sort_field == 'actual' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
               }' 
-              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+              hx-include="#selector-scheme, #selector-period, #selector-selected_date" 
             >
               Actual
               {% if sorting.sort_field == "actual" %}
@@ -172,7 +172,7 @@
                 "sort_field": "difference",
                 "sort_direction": "{% if sorting.sort_field == 'difference' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
               }' 
-              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+              hx-include="#selector-scheme, #selector-period, #selector-selected_date" 
             >
               Difference
               {% if sorting.sort_field == "difference" %}
@@ -196,7 +196,7 @@
                 "sort_field": "status",
                 "sort_direction": "{% if sorting.sort_field == 'status' and sorting.sort_direction == 'asc' %}desc{% else %}asc{% endif %}"
               }' 
-              hx-include="[name='scheme'], [name='period'], [name='selected_date']"
+              hx-include="#selector-scheme, #selector-period, #selector-selected_date" 
             >
               Status
               {% if sorting.sort_field == "status" %}

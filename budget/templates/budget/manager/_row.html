@@ -52,7 +52,7 @@
         "manager_period_id": "{{ item.period_id }}",
         "manager_category_id": "{{ item.category_id }}"
       }' 
-      hx-include="[name='scheme'], [name='period'], [name='selected_date']" 
+      hx-include="#selector-scheme, #selector-period, #selector-selected_date" 
       data-bs-toggle="modal"
       data-bs-target="#detailModal"
     >
