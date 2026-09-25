@@ -6,8 +6,7 @@ SELECT bs.name AS period_scheme,
     bt.amount AS amount
 FROM budget_periodscheme bs
     JOIN budget_period bp ON bp.scheme_id = bs.id
-    JOIN budget_transaction bt ON bt.trn_date BETWEEN bp.start AND bp.
-end
+    JOIN budget_transaction bt ON bt.trn_date BETWEEN bp.start_date AND bp.end_date
 JOIN budget_category bc ON bt.category_id = bc.id
 JOIN budget_account ba ON bt.account_id = ba.id
 WHERE LOWER(bs.name) ILIKE '%{1}%'

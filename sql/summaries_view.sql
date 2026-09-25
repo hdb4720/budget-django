@@ -13,7 +13,7 @@ SELECT
 FROM 
     budget_periodscheme s
     JOIN budget_period p ON p.scheme_id = s.id
-    JOIN budget_transaction t ON t.trn_date BETWEEN p.start AND p.end
+    JOIN budget_transaction t ON t.trn_date BETWEEN p.start_date AND p.end_date
     JOIN budget_category c ON c.id = t.category_id
 
 GROUP BY 

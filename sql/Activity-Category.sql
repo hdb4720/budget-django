@@ -13,9 +13,9 @@ FROM budget_periodscheme s,
 WHERE 
     s.name LIKE '%{1}%' AND 
     p.scheme_id = s.id AND
-    p.start <= '{2}' AND 
-    p.end >= '{2}' AND
-    t.trn_date BETWEEN p.start AND p.end
+    p.start_date <= '{2}' AND 
+    p.end_date >= '{2}' AND
+    t.trn_date BETWEEN p.start_date AND p.end_date
 GROUP BY 
     s.name,
     p.label,

@@ -17,18 +17,18 @@ def get_period_selector(selected):
         
     periods = Period.objects.filter(
         scheme_id=scheme.id
-        ).order_by("start")
+        ).order_by("start_date")
     
     if not selected_period:
         if not selected_date:
             selected_date = timezone.now().date()
     else:
         period = periods.get(id=selected_period)
-        selected_date = period.end
+        selected_date = period.end_date
         
     period = periods.get(
-        start__lte=selected_date,
-        end__gte=selected_date
+        start_date__lte=selected_date,
+        end_date__gte=selected_date
     )
     
     period_list = list(periods)

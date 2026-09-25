@@ -333,8 +333,8 @@ class Period(models.Model):
     )
 
     # Start and end boundaries of the period
-    start = models.DateField()
-    end = models.DateField()
+    start_date = models.DateField()
+    end_date = models.DateField()
 
     # Human-friendly label (e.g., "2026-04", "Apr 2026", "P12", "4th Wed - Apr")
     label = models.CharField(max_length=100)

@@ -38,7 +38,7 @@
                 hx-vals='{"respond_to":"display"}' hx-include="[name='scheme'], [name='period']">
                 {% for p in periods %}
                 <option value="{{ p.id }}" {% if p.id == period.id %}selected{% endif %}>
-                  {{ p.start }} — {{ p.end }}
+                  {{ p.start_date }} — {{ p.end_date }}
                 </option>
                 {% endfor %}
               </select>

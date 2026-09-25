@@ -15,7 +15,7 @@ WHERE
     s.name LIKE '%{1}%'
     AND p.scheme_id = s.id
     AND p.end >= CURRENT_DATE
-    AND t.trn_date BETWEEN p.start AND p.end
+    AND t.trn_date BETWEEN p.start_date AND p.end_date
 ORDER BY 
     t.trn_date,
     a.name,

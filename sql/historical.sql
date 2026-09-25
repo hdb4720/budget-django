@@ -25,6 +25,5 @@ FROM
         budget_transaction t
     WHERE s.name="4th Wednesday" AND p.scheme_id = s.id 
     ANd t.category_id = c.id
-    AND t.trn_date BETWEEN p.start AND p.end
-    ) ta
+    AND t.trn_date BETWEEN p.start_date AND p.end_date) ta
 GROUP BY 1 order 1;

@@ -68,7 +68,7 @@ class PeriodInline(admin.TabularInline):
     model = Period
     extra = 0
     ordering = ("sequence",)
-    readonly_fields = ("sequence", "start", "end", "label")
+    readonly_fields = ("sequence", "start_date", "end_date", "label")
     can_delete = False
 
 

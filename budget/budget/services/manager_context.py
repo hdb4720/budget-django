@@ -92,7 +92,7 @@ def get_manager_context(selected, sorting, filtering):
     
     accounts = build_accounts()
     categories = build_categories()
-    transactions = build_transactions(period.end)
+    transactions = build_transactions(period.end_date)
     summaries = build_summaries(scheme, transactions)
     histories = build_histories(period, transactions)
     period_histories = build_period_histories(summaries)
@@ -239,8 +239,8 @@ def build_period_histories(summaries):
 def build_actuals(period, transactions):
     actuals = (
         transactions.filter(
-            trn_date__gte=period.start,
-            trn_date__lte=period.end,
+            trn_date__gte=period.start_date,
+            trn_date__lte=period.end_date,
         )
         .values("category_id")
         .annotate(
@@ -260,20 +260,20 @@ def build_budgets(period, periods):
     
     matching_period = (
         periods.filter(
-            start__lte=OuterRef("due_date"),
-            end__gte=OuterRef("due_date"),
+            start_date__lte=OuterRef("due_date"),
+            end_date__gte=OuterRef("due_date"),
         )
-        .order_by("start")
+        .order_by("start_date")
         .values("id")[:1]
     )    
     
     budgets = Budget.objects.filter(
-        due_date__gte=period.start,
+        due_date__gte=period.start_date,
     )
 
-    if period.end < today:
+    if period.end_date < today:
         budgets = budgets.filter(
-            due_date__lte=period.end,
+            due_date__lte=period.end_date,
         )
 
     return (
