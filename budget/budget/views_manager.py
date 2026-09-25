@@ -5,6 +5,7 @@ from urllib.parse import urlencode
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.utils.dateparse import parse_date
 from django.views import View
 
 from budget.models import Budget
@@ -119,9 +120,47 @@ class BudgetManagerView(View):
             print("Budget form is invalid")
             print(budget_form.errors)
 
-            return HttpResponse(
-                budget_form.errors.as_ul(),
-                status=422,
+            try:
+                manager_period_id = int(
+                    request.POST.get("manager_period_id")
+                )
+                manager_category_id = int(
+                    request.POST.get("manager_category_id")
+                )
+            except (TypeError, ValueError):
+                raise Http404("Invalid manager row identifiers.")
+
+            category = get_object_or_404(
+                Category,
+                id=manager_category_id,
+            )
+
+            context = {
+                "budget_form": budget_form,
+                "manager_selection": {
+                    "budget_id": manager_budget_id,
+                    "category": category.full_path,
+                },
+                "manager_row": {
+                    "period_id": manager_period_id,
+                    "category_id": manager_category_id,
+                },
+                "scheme": {
+                    "id": request.POST.get("scheme", ""),
+                },
+                "period": {
+                    "id": request.POST.get("period", ""),
+                },
+                "selected_date": parse_date(
+                    request.POST.get("selected_date", "")
+                ),
+            }
+
+            return render(
+                request,
+                "budget/manager/_selection_modal.html",
+                context,
+                status=200,
             )
 
         saved_budget = budget_form.save()

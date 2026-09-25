@@ -59,6 +59,11 @@
       value="{{ selected_date|date:'Y-m-d' }}"
     >
     <div class="modal-body">
+      {% if budget_form.non_field_errors %}
+        <div class="alert alert-danger">
+          {{ budget_form.non_field_errors }}
+        </div>
+      {% endif %}
       <div class="mb-3">
         <label 
           for="{{ budget_form.category.id_for_label }}" 
@@ -66,8 +71,8 @@
         >
           Category
         </label>
-        {{ budget_form.category }}
-        {{ budget_form.category.errors }}
+          {{ budget_form.category }}
+          {{ budget_form.category.errors }}
       </div>
       <div class="mb-3">
         <label 
