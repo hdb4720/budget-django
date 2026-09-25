@@ -310,7 +310,6 @@ def build_details(period, budgets, phantoms):
         detail.due_date = budget.due_date
         detail.amount = budget.amount
 
-        detail.seq = budget.seq
         detail.notes = budget.notes
 
         detail.category = budget.category.full_path

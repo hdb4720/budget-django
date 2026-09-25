@@ -134,8 +134,7 @@ class Budget(models.Model):
         max_length=20,
         choices=BudgetType.choices,
     )
-    seq = models.IntegerField(default=0)
-
+    
     # Optional: which account is expected to satisfy this budget
     account = models.ForeignKey(
         Account, 

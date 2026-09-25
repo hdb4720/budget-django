@@ -34,7 +34,7 @@ DELETE FROM budget_budget WHERE id IN (
         b.due_date >= p.start_date
 );
 
-\copy budget_budget (due_date,amount,notes,account_id,category_id,type,seq) FROM {3} WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', QUOTE '"', ESCAPE '"');  
+\copy budget_budget (due_date,amount,notes,account_id,category_id,type) FROM {3} WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', QUOTE '"', ESCAPE '"');  
 
 SELECT  
     s.name AS scheme,

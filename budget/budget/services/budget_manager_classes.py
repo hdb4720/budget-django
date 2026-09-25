@@ -11,7 +11,6 @@ class BudgetManagerDetailRow:
         self.due_date = None
         self.amount = ZERO
 
-        self.seq = 0
         self.notes = None
 
         self.category = None

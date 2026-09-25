@@ -71,7 +71,7 @@ class BudgetManagerView(View):
         }
         # breakpoint()
         # # Sandbox
-        sandbox(context)
+        # sandbox(context)
 
         if respond_to == "display":
             return render(request, "budget/manager/_display.html", context)

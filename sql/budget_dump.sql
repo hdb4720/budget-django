@@ -3,8 +3,7 @@ SELECT
     b.amount,
     b.account_id,
     b.category_id,
-    b.type,
-    b.seq
+    b.type
 FROM budget_budget b
 JOIN budget_category c ON c.id = b.category_id
 WHERE c.full_path LIKE '%{1}%'
