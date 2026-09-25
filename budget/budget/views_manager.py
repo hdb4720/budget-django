@@ -29,18 +29,36 @@ class BudgetManagerView(View):
     def get(self, request):
         manager_requests = get_manager_requests(request)
         respond_to = manager_requests["respond_to"]
-
         selector = get_period_selector(manager_requests["selected"])
         manager_context = get_manager_context(
             selector,
             manager_requests["sorting"],
             manager_requests["filtering"],
         )
-
         manager_modal_return = {}
-        if respond_to in ("details", "selection"):
+        if respond_to == "details":
             manager_modal_return = get_detail_row(
-                respond_to, 
+                respond_to,
+                manager_requests["manager_modal"],
+                manager_context["manager"],
+            )
+            manager_details = manager_modal_return["manager_details"]
+            if len(manager_details) == 1:
+                manager_modal = {
+                    **manager_requests["manager_modal"],
+                    "manager_budget_id": manager_details[0].budget_id,
+                }
+                respond_to = "selection"
+                manager_requests["respond_to"] = respond_to
+                manager_requests["manager_modal"] = manager_modal
+                manager_modal_return = get_detail_row(
+                    respond_to,
+                    manager_modal,
+                    manager_context["manager"],
+                )
+        elif respond_to == "selection":
+            manager_modal_return = get_detail_row(
+                respond_to,
                 manager_requests["manager_modal"],
                 manager_context["manager"],
             )
